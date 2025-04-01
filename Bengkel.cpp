@@ -75,15 +75,16 @@ void funcServis(){
     cout<<setfill('=')<<right<<setw(44)<<"";
 }
 
-//
 void listNota(){
 //nampilin apa aja yang udah dipesan abistuh nanya mau nambah pesanan atau nggak, kalau nggak langsung bayar
 }
 
+//bagian ngedit layanan(sparepart/servis)
 void edit(){
 
 }
 
+//berisi sparepart/servis
 void layanan(){
     int pilih;
     cout<<"Layanan Produk/Servis\n";
@@ -104,6 +105,7 @@ void layanan(){
     }
 }
 
+//bagian buat nota/pesanan
 void buatPesanan(){
     layanan();
     cout<<"eak";
@@ -113,9 +115,9 @@ void mainMenu(){
     int pilih;
     cout<<"====LIST====\n";
     cout<<"1. List Layanan\n";//istilahnya cuman jual barangnya aja 
-    cout<<"2. Membuat Pesanan\n";//lebih ke jual barangnya+jasanya(ganti oli/aki) pengecekan/servis,sama kalau ganti oli,bersihin cvt, dll
+    cout<<"2. Membuat Pesanan\n";//ngebuat pesanan (sparepart sama servis jadi satu)
     cout<<"3. List nota\n";//lihat pesanan sekaligus, terus mau nambah/bayar/ubah pesanan
-    cout<<"4. Edit Layanan \n";//buat ngedit sparepat/servis
+    cout<<"4. Edit Layanan \n";//buat ngedit isi sparepat/servis
     cout<<"5. Keluar \n";//proses selesai
     cout<<"============\n";
     cout<<"Pilih: ";cin>>pilih;
