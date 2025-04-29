@@ -7,6 +7,8 @@ using namespace std;
 opsional= jika servis penuh ada opsi delay diservis */
 bool bagLogin=true;
 
+//konsep tabel baru= sparepart sama servis dijadiin satu, isi nya struct nama, harga, jumlah(sparepart sama sevis dijadiin satu) 
+
 struct usnpasslogin{
     string id= "k123";
     string pass= "123";
@@ -48,6 +50,7 @@ void sesiLogin(int x){
     }
 }
 
+//sorting taro di list sparepart&servis / di nota juga oke
 //nampilin list sparepart
 string header1="LIST SPAREPART";
 void funcSparepart(){
@@ -75,8 +78,15 @@ void funcServis(){
     cout<<setfill('=')<<right<<setw(44)<<"";
 }
 
-void listNota(){
 //nampilin apa aja yang udah dipesan abistuh nanya mau nambah pesanan atau nggak, kalau nggak langsung bayar
+//niatnya serching pengen ditaro sini
+void listNota(){
+//pertama dia ngeluarin listnya dulu(keduanya/yang servis aja/dll)
+//contoh 1. spion 2.servis cvt 3.ganti oli(servis+oli nya) (sekip dulu lah) tabelnya ubah aja dah jadiin 1 ae biar simple 
+    int pilih;
+
+    cout<<"Pilih: ";cin>>pilih;//milih yang ada di list 
+    
 }
 
 //bagian ngedit layanan(sparepart/servis)
