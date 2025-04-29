@@ -80,6 +80,7 @@ void listNota(){
 }
 
 //bagian ngedit layanan(sparepart/servis)
+//nah kalo nanti diedit, panjang dari si tabel ga bakal ngikut sama panjang dari konten (done)
 void edit(){
 
 }
