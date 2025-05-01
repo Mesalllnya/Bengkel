@@ -7,8 +7,6 @@ using namespace std;
 opsional= jika servis penuh ada opsi delay diservis */
 bool bagLogin=true;
 
-//konsep tabel baru= sparepart sama servis dijadiin satu, isi nya struct nama, harga, jumlah(sparepart sama sevis dijadiin satu) 
-
 struct usnpasslogin{
     string id= "k123";
     string pass= "123";
@@ -50,7 +48,6 @@ void sesiLogin(int x){
     }
 }
 
-//sorting taro di list sparepart&servis / di nota juga oke
 //nampilin list sparepart
 string header1="LIST SPAREPART";
 void funcSparepart(){
@@ -78,19 +75,11 @@ void funcServis(){
     cout<<setfill('=')<<right<<setw(44)<<"";
 }
 
-//nampilin apa aja yang udah dipesan abistuh nanya mau nambah pesanan atau nggak, kalau nggak langsung bayar
-//niatnya serching pengen ditaro sini
 void listNota(){
-//pertama dia ngeluarin listnya dulu(keduanya/yang servis aja/dll)
-//contoh 1. spion 2.servis cvt 3.ganti oli(servis+oli nya) (sekip dulu lah) tabelnya ubah aja dah jadiin 1 ae biar simple 
-    int pilih;
-
-    cout<<"Pilih: ";cin>>pilih;//milih yang ada di list 
-    
+//nampilin apa aja yang udah dipesan abistuh nanya mau nambah pesanan atau nggak, kalau nggak langsung bayar
 }
 
 //bagian ngedit layanan(sparepart/servis)
-//nah kalo nanti diedit, panjang dari si tabel ga bakal ngikut sama panjang dari konten (done)
 void edit(){
 
 }
@@ -123,36 +112,54 @@ void buatPesanan(){
 }
 
 void mainMenu(){
-    int pilih;
-    cout<<"====LIST====\n";
-    cout<<"1. List Layanan\n";//istilahnya cuman jual barangnya aja 
-    cout<<"2. Membuat Pesanan\n";//ngebuat pesanan (sparepart sama servis jadi satu)
-    cout<<"3. List nota\n";//lihat pesanan sekaligus, terus mau nambah/bayar/ubah pesanan
-    cout<<"4. Edit Layanan \n";//buat ngedit isi sparepat/servis
-    cout<<"5. Keluar \n";//proses selesai
-    cout<<"============\n";
-    cout<<"Pilih: ";cin>>pilih;
-    switch (pilih)
-    {
-    case 1:
-        layanan();
-        break;
-    case 2:
-        buatPesanan();
-        break;
-    case 3:
-        listNota();
-        break;
-    case 4:
-        edit();
-        break;
-    case 5:
-        exit(0);
-        break;
-    default:
-        break;
-    }
+    char back;
+    do{
+        int pilih;
+        system("cls");
+        cout<<"====LIST====\n";
+        cout<<"1. List Layanan\n";//istilahnya cuman jual barangnya aja 
+        cout<<"2. Membuat Pesanan\n";//ngebuat pesanan (sparepart sama servis jadi satu)
+        cout<<"3. List nota\n";//lihat pesanan sekaligus, terus mau nambah/bayar/ubah pesanan
+        cout<<"4. Edit Layanan \n";//buat ngedit isi sparepat/servis
+        cout<<"5. Keluar \n";//proses selesai
+        cout<<"============\n";
+        cout<<"Pilih: ";cin>>pilih; cout<<endl;
 
+        switch (pilih)
+        {
+        case 1:
+            layanan();
+            break;
+        case 2:
+            buatPesanan();
+            break;
+        case 3:
+            listNota();
+            break;
+        case 4:
+            edit();
+            break;
+        case 5:
+            exit(0);
+            break;
+        default:
+            cout << "Input tidak valid!\n";
+            break;
+        }
+
+        cout << "\ningin kembali ke menu utama? (y/n): ";
+        cin >> back;
+        
+        if (back == 'n' || back == 'N'){
+        cout << "Terima kasih telah menggunakan program ini.\n";
+        exit(0);
+        }
+        else{
+            cout << "Input tidak valid!\n";
+            system("pause");
+            return mainMenu();
+    }
+    }while(back=='y'||back=='Y');
 }
 
 
