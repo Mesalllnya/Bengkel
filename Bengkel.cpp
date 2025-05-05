@@ -16,12 +16,21 @@ struct sparepat{
     string nama;
     int jumlah;
     int harga;
-};sparepat sp[]={{"busi",10,20000},{"oli",20,50000},{"kampas rem",15,30000},{"lampu",5,10000},{"spion(sepasang)",8,40000}};
+};sparepat sp[]={
+    {"busi",10,20000},
+    {"oli",20,50000},
+    {"kampas rem",15,30000},
+    {"lampu",5,10000},
+    {"spion(sepasang)",8,40000}};
 
 struct servis{
     string nama;
     int harga;
-};servis sr[]={{"ganti oli",70000},{"ganti busi",50000},{"ganti kampas rem",40000},{"ganti lampu",20000}};
+};servis sr[]={
+    {"ganti oli",70000},
+    {"ganti busi",50000},
+    {"ganti kampas rem",40000},
+    {"ganti lampu",20000}};
 
 //bagian login
 void sesiLogin(int x){
@@ -48,9 +57,21 @@ void sesiLogin(int x){
     }
 }
 
+void sortingsp(){
+    int x = sizeof(sp)/sizeof(sp[0]);
+    for(int i=0;i<x-1;i++){
+        for(int j=0;j<x-i-1;j++){
+            if(sp[j].jumlah<sp[j+1].jumlah){
+                swap(sp[j],sp[j+1]);
+            }
+        }
+    }
+}
+
 //nampilin list sparepart
 string header1="LIST SPAREPART";
 void funcSparepart(){
+    sortingsp();
     cout<<setfill('=')<<setw(44)<<""<<endl;
     cout<<setfill(' ')<<"|"<<left<<setw(42)<<header1<<"|"<<endl;
     cout<<setfill('-')<<"|"<<right<<setw(43)<<"|";
@@ -61,9 +82,21 @@ void funcSparepart(){
     cout<<setfill('=')<<setw(44)<<""<<endl;
 }
 
+void sortingsr(){
+    int x = sizeof(sr)/sizeof(sr[0]);
+    for(int i=0;i<x-1;i++){
+        for(int j=0;j<x-i-1;j++){
+            if(sr[j].harga<sr[j+1].harga){
+                swap(sr[j],sr[j+1]);
+            }
+        }
+    }
+}
+
 //nampilin list servis
 string header2="LIST SERVIS";
 void funcServis(){
+    sortingsr();
     cout<<setfill('=')<<setw(44)<<""<<endl;
     cout<<setfill(' ')<<"|"<<left<<setw(42)<<header2<<"|"<<endl;
     cout<<setfill('-')<<"|"<<right<<setw(43)<<"|";
@@ -140,6 +173,7 @@ void mainMenu(){
             edit();
             break;
         case 5:
+            cout << "teima kasih telah menggunakan program ini.\n";
             exit(0);
             break;
         default:
@@ -150,16 +184,16 @@ void mainMenu(){
         cout << "\ningin kembali ke menu utama? (y/n): ";
         cin >> back;
         
-        if (back == 'n' || back == 'N'){
+    }while(back=='y'||back=='Y');
+
+    if (back == 'n' || back == 'N'){
         cout << "Terima kasih telah menggunakan program ini.\n";
         exit(0);
-        }
-        else{
-            cout << "Input tidak valid!\n";
-            system("pause");
-            return mainMenu();
+    }else{
+        cout << "Input tidak valid!\n";
+        system("pause");
+        return mainMenu();
     }
-    }while(back=='y'||back=='Y');
 }
 
 
