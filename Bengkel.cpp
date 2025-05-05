@@ -21,7 +21,7 @@ struct sparepat{
     {"oli",20,50000},
     {"kampas rem",15,30000},
     {"lampu",5,10000},
-    {"spion(sepasang)",8,40000}};
+    {"spion",8,40000}};
 
 struct servis{
     string nama;
@@ -80,6 +80,7 @@ void funcSparepart(){
         cout<<setfill(' ')<<left<<"| "<<setw(3)<<i+1<<"| "<<setw(20)<<sp[i].nama<<"| "<<setw(7)<<sp[i].harga<<"| "<<setw(5)<<sp[i].jumlah<<"|"<<endl;
     }
     cout<<setfill('=')<<setw(44)<<""<<endl;
+
 }
 
 void sortingsr(){
@@ -107,6 +108,73 @@ void funcServis(){
     }
     cout<<setfill('=')<<right<<setw(44)<<"";
 }
+
+void caricoy(int x){
+    string dicari;bool found=false;int l;
+    switch (x)
+    {
+    case 1://sparepart
+        cout<<"dicari: ";getline(cin>>ws,dicari);
+        for ( int i = 0; i < sizeof(sp)/sizeof(sp[0]); i++)
+        {
+            if (dicari == sp[i].nama)
+            {
+                found=true;l=i;
+            }
+        }
+        if (found)
+        {
+            cout<<"Data ditemukan\n";
+            cout<<"Nama : "<<sp[l].nama<<endl;
+            cout<<"Stok : "<<sp[l].jumlah<<endl;
+            cout<<"Harga: "<<sp[l].harga<<endl;
+        }else{cout<<"Data ga ada boi\n";}
+        
+    break;
+    case 2://servis
+        cout<<"dicari: ";getline(cin>>ws,dicari);
+        for ( int i = 0; i < sizeof(sr)/sizeof(sr[0]); i++)
+        {
+            if (dicari == sr[i].nama)
+            {
+                found=true;l=i;
+            }
+        }
+        if (found)
+        {
+            cout<<"Data ditemukan\n";
+            cout<<"Nama : "<<sr[l].nama<<endl;
+            cout<<"Harga: "<<sr[l].harga<<endl;
+        }else{cout<<"Data ga ada boi\n";}
+        
+    break;
+    
+    default:
+        break;
+    }
+}
+
+void searching(){
+    int search;
+    cout<<"SEARCHING: "<<endl;
+    cout<<"1. Sparepart\n";
+    cout<<"2. Servis\n";
+    cout<<">>";cin>>search;
+    switch (search)
+    {
+    case 1:
+        caricoy(search);
+        break;
+    case 2:
+        caricoy(search);
+        break;
+    
+    default:
+        searching();
+        break;
+    }
+}
+
 
 void listNota(){
 //nampilin apa aja yang udah dipesan abistuh nanya mau nambah pesanan atau nggak, kalau nggak langsung bayar
@@ -154,7 +222,8 @@ void mainMenu(){
         cout<<"2. Membuat Pesanan\n";//ngebuat pesanan (sparepart sama servis jadi satu)
         cout<<"3. List nota\n";//lihat pesanan sekaligus, terus mau nambah/bayar/ubah pesanan
         cout<<"4. Edit Layanan \n";//buat ngedit isi sparepat/servis
-        cout<<"5. Keluar \n";//proses selesai
+        cout<<"5. Searching \n";//buat mencari isi sparepat/servis
+        cout<<"0. Keluar \n";//proses selesai
         cout<<"============\n";
         cout<<"Pilih: ";cin>>pilih; cout<<endl;
 
@@ -173,6 +242,9 @@ void mainMenu(){
             edit();
             break;
         case 5:
+            searching();
+            break;
+        case 0:
             cout << "teima kasih telah menggunakan program ini.\n";
             exit(0);
             break;
