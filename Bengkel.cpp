@@ -32,6 +32,13 @@ struct servis{
     {"ganti kampas rem",40000},
     {"ganti lampu",20000}};
 
+struct notes{
+    string nama;
+    int jumlah;
+    int harga;
+
+};
+
 //bagian login
 void sesiLogin(int x){
     system("cls");
@@ -106,7 +113,7 @@ void funcServis(){
     for(int i=0;i<sizeof(sr)/sizeof(sr[0]);i++){
         cout<<setfill(' ')<<left<<"| "<<setw(3)<<i+1<<"| "<<setw(26)<<sr[i].nama<<"| "<<setw(8)<<sr[i].harga<<"|"<<endl;
     }
-    cout<<setfill('=')<<right<<setw(44)<<"";
+    cout<<setfill('=')<<right<<setw(44)<<""<<endl;
 }
 
 void caricoy(int x){
@@ -175,9 +182,9 @@ void searching(){
     }
 }
 
-
+//menmapilkan apa saja yang dipesan serta rinciannya
 void listNota(){
-//nampilin apa aja yang udah dipesan abistuh nanya mau nambah pesanan atau nggak, kalau nggak langsung bayar
+
 }
 
 //bagian ngedit layanan(sparepart/servis)
@@ -206,13 +213,30 @@ void layanan(){
     }
 }
 
-//bagian buat nota/pesanan
-void buatPesanan(){
-    layanan();
-    cout<<"eak";
+void fullNota(int *bnykPesanan, notes *&nota){
+    cout<<"masuk fullNota\n";
+    (*bnykPesanan)+=1;
+    notes *baru=new notes[*bnykPesanan];
+    for(int i=0; i<*bnykPesanan;i++){
+        baru[i]=nota[i];
+    }
+    delete[] nota;
+    nota=baru;
+    cout<<"loop selesai\n";
 }
 
-void mainMenu(){
+//bagian buat nota/pesanan
+void buatPesanan(int *bnykPesanan, notes *&nota){
+    layanan();
+    cout<<"\nPesanan ke-"<<*bnykPesanan+1<<endl;
+    //menambah kapasitas struk banyaknya pesanan
+    fullNota(bnykPesanan, nota);
+    cout<<"banyaknya total pesanan: "<<*bnykPesanan<<endl;
+    
+
+}
+
+void mainMenu(int *jmlhPesanan, notes *&nota){
     char back;
     do{
         int pilih;
@@ -233,7 +257,8 @@ void mainMenu(){
             layanan();
             break;
         case 2:
-            buatPesanan();
+            buatPesanan(jmlhPesanan,nota);
+            cout<<"jumlh pesanan: "<<*jmlhPesanan<<endl;
             break;
         case 3:
             listNota();
@@ -264,13 +289,16 @@ void mainMenu(){
     }else{
         cout << "Input tidak valid!\n";
         system("pause");
-        return mainMenu();
+        return mainMenu(jmlhPesanan,nota);
     }
 }
 
 
 int main(){
+    int pesanan=0;
+    notes *nota=new notes [pesanan];
     system("cls");
     sesiLogin(3);
-    mainMenu();
+    mainMenu(&pesanan,nota);
+    cout<<"jumlh pesanan(di main menu): "<<pesanan<<endl;
 }
