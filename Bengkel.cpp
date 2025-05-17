@@ -64,10 +64,9 @@ void sesiLogin(int x){
     }
 }
 
-void sortingsp(){
-    int x = sizeof(sp)/sizeof(sp[0]);
-    for(int i=0;i<x-1;i++){
-        for(int j=0;j<x-i-1;j++){
+void sortingsp(sparepat* sp, int jenis_sparepart){
+    for(int i=0;i<jenis_sparepart-1;i++){
+        for(int j=0;j<jenis_sparepart-i-1;j++){
             if(sp[j].jumlah<sp[j+1].jumlah){
                 swap(sp[j],sp[j+1]);
             }
@@ -78,7 +77,8 @@ void sortingsp(){
 //nampilin list sparepart
 string header1="LIST SPAREPART";
 void funcSparepart(){
-    sortingsp();
+    int x = sizeof(sp)/sizeof(sp[0]);
+    sortingsp(sp, x);
     cout<<setfill('=')<<setw(44)<<""<<endl;
     cout<<setfill(' ')<<"|"<<left<<setw(42)<<header1<<"|"<<endl;
     cout<<setfill('-')<<"|"<<right<<setw(43)<<"|";
@@ -87,13 +87,11 @@ void funcSparepart(){
         cout<<setfill(' ')<<left<<"| "<<setw(3)<<i+1<<"| "<<setw(20)<<sp[i].nama<<"| "<<setw(7)<<sp[i].harga<<"| "<<setw(5)<<sp[i].jumlah<<"|"<<endl;
     }
     cout<<setfill('=')<<setw(44)<<""<<endl;
-
 }
 
-void sortingsr(){
-    int x = sizeof(sr)/sizeof(sr[0]);
-    for(int i=0;i<x-1;i++){
-        for(int j=0;j<x-i-1;j++){
+void sortingsr(servis* sr, int jenis_servis){
+    for(int i=0;i<jenis_servis-1;i++){
+        for(int j=0;j<jenis_servis-i-1;j++){
             if(sr[j].harga<sr[j+1].harga){
                 swap(sr[j],sr[j+1]);
             }
@@ -104,7 +102,8 @@ void sortingsr(){
 //nampilin list servis
 string header2="LIST SERVIS";
 void funcServis(){
-    sortingsr();
+    int x = sizeof(sr)/sizeof(sr[0]);
+    sortingsr(sr, x);
     cout<<setfill('=')<<setw(44)<<""<<endl;
     cout<<setfill(' ')<<"|"<<left<<setw(42)<<header2<<"|"<<endl;
     cout<<setfill('-')<<"|"<<right<<setw(43)<<"|";
@@ -113,7 +112,7 @@ void funcServis(){
     for(int i=0;i<sizeof(sr)/sizeof(sr[0]);i++){
         cout<<setfill(' ')<<left<<"| "<<setw(3)<<i+1<<"| "<<setw(26)<<sr[i].nama<<"| "<<setw(8)<<sr[i].harga<<"|"<<endl;
     }
-    cout<<setfill('=')<<right<<setw(44)<<""<<endl;
+    cout<<setfill('=')<<right<<setw(44)<<"";
 }
 
 void caricoy(int x){
