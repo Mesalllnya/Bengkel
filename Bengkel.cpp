@@ -182,8 +182,18 @@ void searching(){
 }
 
 //menmapilkan apa saja yang dipesan serta rinciannya
-void listNota(){
-
+void listNota(int *bnykPesanan, notes *&nota, int *maksData){
+    cout<<"\tLIST PESANAN\n";
+    if(*bnykPesanan==0){
+        cout<<"belum ada pesanan\n";
+        return;
+    }
+    for(int i=0;i<*bnykPesanan;i++){
+        cout<<"pesanan ke-"<<i+1<<endl;
+        cout<<"produk/jasa: "<<nota[i].nama<<endl;
+        cout<<"jumlah: "<<nota[i].jumlah<<endl;
+        cout<<"harga: "<<nota[i].harga<<endl;
+    }
 }
 
 //bagian ngedit layanan(sparepart/servis)
@@ -212,30 +222,50 @@ void layanan(){
     }
 }
 
-void fullNota(int *bnykPesanan, notes *&nota){
-    cout<<"masuk fullNota\n";
-    (*bnykPesanan)+=1;
-    notes *baru=new notes[*bnykPesanan];
+void fullNota(int *bnykPesanan, notes *&nota, int *maksData){
+    // cout<<"masuk fullNota\n";
+    (*bnykPesanan)+=1;(*maksData)+=1;
+    notes *baru=new notes[*maksData];
     for(int i=0; i<*bnykPesanan;i++){
         baru[i]=nota[i];
     }
     delete[] nota;
     nota=baru;
-    cout<<"loop selesai\n";
+    // cout<<"loop selesai\n";
 }
 
 //bagian buat nota/pesanan
-void buatPesanan(int *bnykPesanan, notes *&nota){
+void buatPesanan(int *bnykPesanan, notes *&nota, int *maksData){
+    system("cls");
     layanan();
     cout<<"\nPesanan ke-"<<*bnykPesanan+1<<endl;
     //menambah kapasitas struk banyaknya pesanan
-    fullNota(bnykPesanan, nota);
-    cout<<"banyaknya total pesanan: "<<*bnykPesanan<<endl;
-    
-
+    cout<<"masukkan pesanan: ";getline(cin>>ws,nota[*bnykPesanan].nama);
+    fullNota(bnykPesanan, nota, maksData);
+    //searching/nyamain pesanan dengan data yang ada distruct
+    int j=0;
+    for (int i = 0; i < (sizeof(sp) / sizeof(sp[0]))+(sizeof(sr) / sizeof(sr[0])); i++){
+        cout<<i<<endl;
+        if(nota[*bnykPesanan-1].nama==sp[i].nama){
+            nota[*bnykPesanan-1].jumlah=sp[i].jumlah;
+            nota[*bnykPesanan-1].harga=sp[i].harga;
+        }else if(nota[*bnykPesanan-1].nama==sr[i].nama){ 
+            nota[*bnykPesanan-1].jumlah=0;
+            nota[*bnykPesanan-1].harga=sr[i].harga;
+        }else if(nota[*bnykPesanan-1].nama!=sp[i].nama || nota[*bnykPesanan-1].nama!=sr[i].nama 
+            && i<(sizeof(sp) / sizeof(sp[0]))+(sizeof(sr) / sizeof(sr[0]))){
+                j++;
+            if(j==(sizeof(sp) / sizeof(sp[0]))+(sizeof(sr) / sizeof(sr[0]))-1){
+            cout<<"produk/jasa tidak ada\n";
+            (*bnykPesanan)--;
+            system("pause");
+            buatPesanan(bnykPesanan,nota,maksData);
+            }
+        }
+    }
 }
 
-void mainMenu(int *jmlhPesanan, notes *&nota){
+void mainMenu(int *jmlhPesanan, notes *&nota, int *maksData){
     char back;
     do{
         int pilih;
@@ -256,11 +286,11 @@ void mainMenu(int *jmlhPesanan, notes *&nota){
             layanan();
             break;
         case 2:
-            buatPesanan(jmlhPesanan,nota);
+            buatPesanan(jmlhPesanan,nota,maksData);
             cout<<"jumlh pesanan: "<<*jmlhPesanan<<endl;
             break;
         case 3:
-            listNota();
+            listNota(jmlhPesanan,nota,maksData);
             break;
         case 4:
             edit();
@@ -288,17 +318,16 @@ void mainMenu(int *jmlhPesanan, notes *&nota){
     }else{
         cout << "Input tidak valid!\n";
         system("pause");
-        return mainMenu(jmlhPesanan,nota);
+        return mainMenu(jmlhPesanan,nota,maksData);
     }
 }
 
 
 int main(){
-    cout << "test";
-    int pesanan=0;
-    notes *nota=new notes [pesanan];
+    int pesanan=0;int maksData=1;
+    notes *nota=new notes [maksData];
     system("cls");
     sesiLogin(3);
-    mainMenu(&pesanan,nota);
+    mainMenu(&pesanan,nota,&maksData);
     cout<<"jumlh pesanan(di main menu): "<<pesanan<<endl;
 }
