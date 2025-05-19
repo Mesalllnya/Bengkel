@@ -294,6 +294,7 @@ void mainMenu(int *jmlhPesanan, notes *&nota){
 
 
 int main(){
+    cout << "test";
     int pesanan=0;
     notes *nota=new notes [pesanan];
     system("cls");
