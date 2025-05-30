@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <fstream>
+
 using namespace std;
 
 /*jadi, buat jumlah sparepat, harga servis, memperbarui data(menambah,mengurangi stok), nota pembayaran, 
@@ -36,7 +38,6 @@ struct notes{
     string nama;
     int jumlah;
     int harga;
-
 };
 
 //bagian login
@@ -75,9 +76,31 @@ void sortingsp(sparepat* sp, int jenis_sparepart){
 }
 
 //nampilin list sparepart
-string header1="LIST SPAREPART";
+string header1="LIST SPAREPART";                         //belum diganti array dinamis 
 void funcSparepart(){
     int x = sizeof(sp)/sizeof(sp[0]);
+    sparepat* data_sp = new sparepat[100];
+    ifstream file("data_sp.txt");
+    if(!file.is_open()){
+        cerr << "Fail to open file\n";
+    }
+    string line;
+    int i = 0;
+    while(getline(file, line)){
+        istringstream iss(line);
+        string tempName, tempStokStr, tempHargaStr;
+
+        getline(iss, tempName, ',');
+        getline(iss, tempStokStr, ',');
+        getline(iss, tempHargaStr);
+
+        data_sp[i].nama = tempName;
+        data_sp[i].jumlah = stoi(tempStokStr);
+        data_sp[i].harga = stoi(tempHargaStr);
+        i++;
+    }
+    file.close();
+
     sortingsp(sp, x);
     cout<<setfill('=')<<setw(44)<<""<<endl;
     cout<<setfill(' ')<<"|"<<left<<setw(42)<<header1<<"|"<<endl;
@@ -196,9 +219,78 @@ void listNota(int *bnykPesanan, notes *&nota, int *maksData){
     }
 }
 
+
+void edit_sparepart(){
+    int pilih;
+    cout << "\nEDIT SPAREPART\n\n";
+    cout << "1. Tambah sparepart baru\n";
+    cout << "2. Hapus layanan sparepart\n";
+    cout << "pilih : "; cin >> pilih;
+    switch (pilih)
+    {
+        case 1: 
+           
+            break;  
+        
+        case 2: 
+            funcSparepart();
+            break;
+        
+
+
+    }
+}
+
+
+
+
+
+
+void edit_service(){
+    int pilih;
+    cout << "\nEDIT SERVICE\n\n";
+    cout << "1. Tambah Service baru\n";
+    cout << "2. Hapus Menu Service\n";
+    cout << "pilih : "; cin >> pilih;
+    switch(pilih){
+        case 1 : 
+
+
+        break;
+
+        case 2 : 
+            funcServis();
+            string hapus;
+            cout << "Masukkan Menu Service Yang Mau Dihapus : ";
+            getline(cin>>ws, hapus);
+
+          
+        break;
+
+    }
+
+}
+
+
 //bagian ngedit layanan(sparepart/servis)
 void edit(){
+    int pilih;
+    cout << "Mau ngedit layanan sparepart/servis?\n";
+    cout << "1. Sparepart\n";
+    cout << "2. Servis\n";
+    cout << "Pilih: "; cin >> pilih;
+    switch (pilih)
+    {
+        case 1: 
+            edit_sparepart();
+            break;
 
+        case 2:
+            edit_service();
+            break;
+
+
+    }
 }
 
 //berisi sparepart/servis
@@ -238,14 +330,13 @@ void fullNota(int *bnykPesanan, notes *&nota, int *maksData){
 void buatPesanan(int *bnykPesanan, notes *&nota, int *maksData){
     system("cls");
     layanan();
-    cout<<"\nPesanan ke-"<<*bnykPesanan+1<<endl;
+    cout << "\nPesanan ke-" << *bnykPesanan + 1 << endl;
     //menambah kapasitas struk banyaknya pesanan
-    cout<<"masukkan pesanan: ";getline(cin>>ws,nota[*bnykPesanan].nama);
+    cout<<"masukkan pesanan : ";getline(cin>>ws,nota[*bnykPesanan].nama);
     fullNota(bnykPesanan, nota, maksData);
     //searching/nyamain pesanan dengan data yang ada distruct
     int j=0;
     for (int i = 0; i < (sizeof(sp) / sizeof(sp[0]))+(sizeof(sr) / sizeof(sr[0])); i++){
-        cout<<i<<endl;
         if(nota[*bnykPesanan-1].nama==sp[i].nama){
             nota[*bnykPesanan-1].jumlah=sp[i].jumlah;
             nota[*bnykPesanan-1].harga=sp[i].harga;
