@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <fstream>
+
 using namespace std;
 
 /*jadi, buat jumlah sparepat, harga servis, memperbarui data(menambah,mengurangi stok), nota pembayaran, 
@@ -36,7 +38,6 @@ struct notes{
     string nama;
     int jumlah;
     int harga;
-
 };
 
 //bagian login
@@ -75,9 +76,31 @@ void sortingsp(sparepat* sp, int jenis_sparepart){
 }
 
 //nampilin list sparepart
-string header1="LIST SPAREPART";
+string header1="LIST SPAREPART";                         //belum diganti array dinamis 
 void funcSparepart(){
     int x = sizeof(sp)/sizeof(sp[0]);
+    sparepat* data_sp = new sparepat[100];
+    ifstream file("data_sp.txt");
+    if(!file.is_open()){
+        cerr << "Fail to open file\n";
+    }
+    string line;
+    int i = 0;
+    while(getline(file, line)){
+        istringstream iss(line);
+        string tempName, tempStokStr, tempHargaStr;
+
+        getline(iss, tempName, ',');
+        getline(iss, tempStokStr, ',');
+        getline(iss, tempHargaStr);
+
+        data_sp[i].nama = tempName;
+        data_sp[i].jumlah = stoi(tempStokStr);
+        data_sp[i].harga = stoi(tempHargaStr);
+        i++;
+    }
+    file.close();
+
     sortingsp(sp, x);
     cout<<setfill('=')<<setw(44)<<""<<endl;
     cout<<setfill(' ')<<"|"<<left<<setw(42)<<header1<<"|"<<endl;
@@ -181,10 +204,93 @@ void searching(){
     }
 }
 
+//menmapilkan apa saja yang dipesan serta rinciannya
+void listNota(int *bnykPesanan, notes *&nota, int *maksData){
+    cout<<"\tLIST PESANAN\n";
+    if(*bnykPesanan==0){
+        cout<<"belum ada pesanan\n";
+        return;
+    }
+    for(int i=0;i<*bnykPesanan;i++){
+        cout<<"pesanan ke-"<<i+1<<endl;
+        cout<<"produk/jasa: "<<nota[i].nama<<endl;
+        cout<<"jumlah: "<<nota[i].jumlah<<endl;
+        cout<<"harga: "<<nota[i].harga<<endl;
+    }
+}
+
+
+void edit_sparepart(){
+    int pilih;
+    cout << "\nEDIT SPAREPART\n\n";
+    cout << "1. Tambah sparepart baru\n";
+    cout << "2. Hapus layanan sparepart\n";
+    cout << "pilih : "; cin >> pilih;
+    switch (pilih)
+    {
+        case 1: 
+           
+            break;  
+        
+        case 2: 
+            funcSparepart();
+            break;
+        
+
+
+    }
+}
+
+
+
+
+
+
+void edit_service(){
+    int pilih;
+    cout << "\nEDIT SERVICE\n\n";
+    cout << "1. Tambah Service baru\n";
+    cout << "2. Hapus Menu Service\n";
+    cout << "pilih : "; cin >> pilih;
+    switch(pilih){
+        case 1 : 
+
+
+        break;
+
+        case 2 : 
+            funcServis();
+            string hapus;
+            cout << "Masukkan Menu Service Yang Mau Dihapus : ";
+            getline(cin>>ws, hapus);
+
+          
+        break;
+
+    }
+
+}
+
 
 //bagian ngedit layanan(sparepart/servis)
 void edit(){
-    
+    int pilih;
+    cout << "Mau ngedit layanan sparepart/servis?\n";
+    cout << "1. Sparepart\n";
+    cout << "2. Servis\n";
+    cout << "Pilih: "; cin >> pilih;
+    switch (pilih)
+    {
+        case 1: 
+            edit_sparepart();
+            break;
+
+        case 2:
+            edit_service();
+            break;
+
+
+    }
 }
 
 //berisi sparepart/servis
@@ -202,14 +308,14 @@ void layanan(){
     case 2:
         funcServis();
         break;
-        
-        default:
+    
+    default:
         break;
     }
 }
 
 void fullNota(int *bnykPesanan, notes *&nota, int *maksData){
-    cout<<"masuk fullNota\n";
+    // cout<<"masuk fullNota\n";
     (*bnykPesanan)+=1;(*maksData)+=1;
     notes *baru=new notes[*maksData];
     for(int i=0; i<*bnykPesanan;i++){
@@ -217,66 +323,37 @@ void fullNota(int *bnykPesanan, notes *&nota, int *maksData){
     }
     delete[] nota;
     nota=baru;
-    cout<<nota[*bnykPesanan-1].nama<<endl;
-    cout<<"loop selesai\n";
+    // cout<<"loop selesai\n";
 }
 
 //bagian buat nota/pesanan
 void buatPesanan(int *bnykPesanan, notes *&nota, int *maksData){
     system("cls");
-    bool found=false;
     layanan();
-    cout<<"\nPesanan ke-"<<*bnykPesanan+1<<endl;
+    cout << "\nPesanan ke-" << *bnykPesanan + 1 << endl;
     //menambah kapasitas struk banyaknya pesanan
-    cout<<"masukkan pesanan: ";getline(cin>>ws,nota[*bnykPesanan].nama);
-    cout<<"jumlah pesanan: ";cin>>nota[*bnykPesanan].jumlah;
+    cout<<"masukkan pesanan : ";getline(cin>>ws,nota[*bnykPesanan].nama);
     fullNota(bnykPesanan, nota, maksData);
     //searching/nyamain pesanan dengan data yang ada distruct
-    cout<<nota[*bnykPesanan-1].nama<<endl;
-    for (int i = 0; i < (sizeof(sp) / sizeof(sp[0])); i++){
-        // cout<<i<<", "<<*bnykPesanan-1<<endl;
+    int j=0;
+    for (int i = 0; i < (sizeof(sp) / sizeof(sp[0]))+(sizeof(sr) / sizeof(sr[0])); i++){
         if(nota[*bnykPesanan-1].nama==sp[i].nama){
-            // nota[*bnykPesanan-1].jumlah=sp[i].jumlah;
-            //harganya itu harga barang * banyaknya barang yang dibeli
-            nota[*bnykPesanan-1].harga=(sp[i].harga)*(nota[*bnykPesanan-1].jumlah);
-            (sp[i].jumlah)-=nota[*bnykPesanan-1].jumlah;//stoknya berkurang
-            found=true;
+            nota[*bnykPesanan-1].jumlah=sp[i].jumlah;
+            nota[*bnykPesanan-1].harga=sp[i].harga;
+        }else if(nota[*bnykPesanan-1].nama==sr[i].nama){ 
+            nota[*bnykPesanan-1].jumlah=0;
+            nota[*bnykPesanan-1].harga=sr[i].harga;
+        }else if(nota[*bnykPesanan-1].nama!=sp[i].nama || nota[*bnykPesanan-1].nama!=sr[i].nama 
+            && i<(sizeof(sp) / sizeof(sp[0]))+(sizeof(sr) / sizeof(sr[0]))){
+                j++;
+            if(j==(sizeof(sp) / sizeof(sp[0]))+(sizeof(sr) / sizeof(sr[0]))-1){
+            cout<<"produk/jasa tidak ada\n";
+            (*bnykPesanan)--;
+            system("pause");
+            buatPesanan(bnykPesanan,nota,maksData);
+            }
         }
     }
-    for (int i = 0; i < (sizeof(sr) / sizeof(sr[0])); i++){ 
-        if(nota[*bnykPesanan-1].nama==sr[i].nama){
-        nota[*bnykPesanan-1].jumlah=0;
-        nota[*bnykPesanan-1].harga=sr[i].harga;
-        found=true;
-        }
-    } 
-    if(!found){ 
-        cout<<"produk/jasa tidak ada\n";
-        (*bnykPesanan)--;
-        system("pause");
-        buatPesanan(bnykPesanan,nota,maksData);
-    }
-    
-}
-
-//menmapilkan apa saja yang dipesan serta rinciannya
-void listNota(int *bnykPesanan, notes *&nota, int *maksData){
-    cout<<"\tLIST PESANAN\n";
-    if(*bnykPesanan==0){
-        cout<<"belum ada pesanan\n";
-        return;
-    }
-    for(int i=0;i<*bnykPesanan;i++){
-        cout<<"pesanan ke-"<<i+1<<endl;
-        cout<<"produk/jasa: "<<nota[i].nama<<endl;
-        cout<<"jumlah: "<<nota[i].jumlah<<endl;
-        cout<<"harga: "<<nota[i].harga<<endl<<endl;
-    }
-    int totalHarga=0;
-    for (int i = 0; i < *bnykPesanan; i++){
-        totalHarga+=nota[i].harga;
-    }
-    cout<<"total harga: "<<totalHarga<<endl;
 }
 
 void mainMenu(int *jmlhPesanan, notes *&nota, int *maksData){
