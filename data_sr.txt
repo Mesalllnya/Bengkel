@@ -1,0 +1,4 @@
+ganti oli,70000
+ganti busi,50000
+ganti kampas rem,40000
+ganti lampu,20000
