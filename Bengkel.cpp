@@ -84,6 +84,21 @@ void bacaDataServis() {
     file.close();
 }
 
+void data_sp_baru(){
+    ofstream spare("data_sp.txt");
+    if (!spare.is_open()){
+        cout<<"file tidak terbuka\n";
+        return;
+    }
+    string temp;
+    for (int j = 0; j < jumlahSparepart; j++)
+    {
+        spare << data_sp[j].nama << "," << data_sp[j].jumlah << "," << data_sp[j].harga << endl;
+    }
+    //data yang baru akan disimpan ke file data_sp.txt secara urut dari banyaknya stok (sudah ke sorting )
+    spare.close();
+}
+
 void tambahSparepart() {
     ofstream file("data_sp.txt", ios::app);
     if (!file.is_open()) {
@@ -91,6 +106,7 @@ void tambahSparepart() {
         return;
     }
     Sparepart s;
+    jumlahSparepart++;
     cout << "\nNama sparepart: "; getline(cin >> ws, s.nama);
     cout << "Jumlah: "; cin >> s.jumlah;
     cout << "Harga: "; cin >> s.harga;
@@ -399,6 +415,7 @@ void buatPesanan(int* bnykPesanan, notes*& nota, int* maksData) {
                 nota[*bnykPesanan - 1] = {input, jumlahBeli, (data_sp[i].harga)*jumlahBeli};
                 found = true;
                 cout << "Berhasil Membuat Pesanan Sparepart.\n";
+                data_sp_baru();
                 
             }else{
                 cout<<"jumlah tidak mencukupi\n";
@@ -597,20 +614,20 @@ void mainMenu(int* jmlhPesanan, notes*& nota, int* maksData,string waktu) {
     } while (back == 'y' || back == 'Y');
 }
 
-void data_sp_baru(){
-    ofstream spare("data_sp.txt");
-    if (!spare.is_open()){
-        cout<<"file tidak terbuka\n";
-        return;
-    }
-    string temp;
-    for (int j = 0; j < jumlahSparepart; j++)
-    {
-        spare << data_sp[j].nama << "," << data_sp[j].jumlah << "," << data_sp[j].harga << endl;
-    }
-    //data yang baru akan disimpan ke file data_sp.txt secara urut dari banyaknya stok (sudah ke sorting )
-    spare.close();
-}
+// void data_sp_baru(){
+//     ofstream spare("data_sp.txt");
+//     if (!spare.is_open()){
+//         cout<<"file tidak terbuka\n";
+//         return;
+//     }
+//     string temp;
+//     for (int j = 0; j < jumlahSparepart; j++)
+//     {
+//         spare << data_sp[j].nama << "," << data_sp[j].jumlah << "," << data_sp[j].harga << endl;
+//     }
+//     //data yang baru akan disimpan ke file data_sp.txt secara urut dari banyaknya stok (sudah ke sorting )
+//     spare.close();
+// }
 
 void interfaceAwal() {
     while (true) {
