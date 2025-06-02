@@ -416,7 +416,7 @@ void buatPesanan(int* bnykPesanan, notes*& nota, int* maksData) {
                 found = true;
                 cout << "Berhasil Membuat Pesanan Sparepart.\n";
                 data_sp_baru();
-                
+
             }else{
                 cout<<"jumlah tidak mencukupi\n";
                 found = true;
@@ -492,7 +492,6 @@ void listNota(int* bnykPesanan, notes*& nota, int* maksData, string waktu) {
     string pilih;
     cout<<"1. hapus\n";
     cout<<"2. bayar\n";
-    cout<<"!(1&2)=default\n";
     cout<<">> ";cin>>pilih;
     switch (pilih[0])
     {
@@ -552,6 +551,7 @@ void listNota(int* bnykPesanan, notes*& nota, int* maksData, string waktu) {
             }
             file<<"total harga: "<<totalHarga<<endl<<endl;
             file.close();
+            cout<<"Kembalian: "<<kembalian<<endl;
 
             (*maksData)=1;
             (*bnykPesanan)=0;
@@ -613,21 +613,6 @@ void mainMenu(int* jmlhPesanan, notes*& nota, int* maksData,string waktu) {
         }
     } while (back == 'y' || back == 'Y');
 }
-
-// void data_sp_baru(){
-//     ofstream spare("data_sp.txt");
-//     if (!spare.is_open()){
-//         cout<<"file tidak terbuka\n";
-//         return;
-//     }
-//     string temp;
-//     for (int j = 0; j < jumlahSparepart; j++)
-//     {
-//         spare << data_sp[j].nama << "," << data_sp[j].jumlah << "," << data_sp[j].harga << endl;
-//     }
-//     //data yang baru akan disimpan ke file data_sp.txt secara urut dari banyaknya stok (sudah ke sorting )
-//     spare.close();
-// }
 
 void interfaceAwal() {
     while (true) {
