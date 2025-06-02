@@ -1,5 +1,7 @@
 busi,10,20000
 oli,20,50000
 kampas rem,15,30000
-lampu,5,10000
 spion,8,40000
+lampu,5,10000
+rantai,10,110000
+vleg,12,150000
